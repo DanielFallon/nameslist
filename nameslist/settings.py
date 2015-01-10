@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'nameslist_app',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,3 +86,7 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
+
+#login settings
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/list/'
