@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+import nameslist_app.urls
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'nameslist.views.home', name='home'),
@@ -14,4 +16,5 @@ urlpatterns = patterns('',
     url(r'^logout/', 'django.contrib.auth.views.logout', {
         'next_page': '/'
     }),
+    url(r'^$', include(nameslist_app.urls)),
 )
