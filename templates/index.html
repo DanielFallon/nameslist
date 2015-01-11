@@ -1,21 +1,29 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
     <title>Rush PKS</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{%  static 'css/bootstrap-theme.css'  %}"
+    <link rel="stylesheet" href="http://help.doitmax.de/glyphicons/css/glyphicons.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type="application/javascript" src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
-            <legend><i class="glyphicon glyphicon-globe"></i> Sign up!</legend>
-            <form action="{% url 'nameslist_app.views.submit' %}" method="post" class="form" role="form">
+            <legend><i class="glyphicons-icon skull"></i> Sign up!</legend>
+            <form data-async data-target='#output' action="{% url 'nameslist_app.views.submit' %}/?response=JSON" method="post" class="form" role="form">
              {% csrf_token %}
                 <input class="form-control" name="name" placeholder="Full Name" type="text" />
+                <fieldset name="extra">
                 {% for field_type in form_elements %}
-                    <input class="form-control" name="field_type_id[{{field_type.id}}]" placeholder="{{ field_type.question }}" type="text" />
+                    <input class="form-control" name="field_type_id{{field_type.id}}" placeholder="{{ field_type.question }}" type="text" />
                 {% endfor %}
+                </fieldset>
             <br />
             <br />
             <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -24,5 +32,25 @@
         </div>
     </div>
 </div>
+<div id="output"></div>
+<script type="application/javascript">
+    jQuery(document).on('ready',function() {
+    jQuery('form[data-async]').on('submit', function(event) {
+        var $form = $(this);
+        var $target = $($form.attr('data-target'));
+
+        jQuery.ajax({
+            type: $form.attr('method'),
+            url: $form.attr('action'),
+            data: $form.serialize(),
+
+            success: function(data, status) {
+                $target.html(data.status);
+            }
+        });
+        event.preventDefault();
+    });
+});
+</script>
 </body>
 </html>

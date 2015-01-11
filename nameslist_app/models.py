@@ -9,7 +9,7 @@ class Prospective(models.Model):
 
 class Name(models.Model):
     prospective_id = models.ForeignKey(Prospective)
-    user_id = models.ForeignKey(User)
+    user_id = models.ForeignKey(User, null=True, blank=True)
     name = models.CharField(max_length=256)
     correct = models.BooleanField(default=False)
 
@@ -43,7 +43,7 @@ class Fact_Type(models.Model):
 
 class Fact(models.Model):
     fact_type_id = models.ForeignKey(Fact_Type)
-    user_id = models.ForeignKey(User, null=True)
+    user_id = models.ForeignKey(User, null=True, blank=True)
     prospective_id = models.ForeignKey(Prospective)
     fact = models.CharField(max_length=256)
 
