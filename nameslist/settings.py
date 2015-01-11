@@ -57,12 +57,13 @@ WSGI_APPLICATION = 'nameslist.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+DATABASES = site_specific.DATABASES
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -92,3 +93,4 @@ TEMPLATE_DIRS = (
 #login settings
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/list/'
+
