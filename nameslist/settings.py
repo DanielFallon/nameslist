@@ -64,6 +64,7 @@ WSGI_APPLICATION = 'nameslist.wsgi.application'
 #     }
 # }
 DATABASES = site_specific.DATABASES
+SOUTH_DATABASE_ADAPTERS = site_specific.SOUTH_DATABASE_ADAPTERS
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
