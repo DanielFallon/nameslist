@@ -4,8 +4,8 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Rush PKS</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{%  static 'css/bootstrap-theme.css'  %}"
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{%  static 'css/bootstrap-theme.css'  %}" />
     <link rel="stylesheet" href="http://help.doitmax.de/glyphicons/css/glyphicons.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <script type="application/javascript" src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
@@ -14,8 +14,8 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
-            <legend><i class="glyphicons-icon skull"></i> Sign up!</legend>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-4 text-center well well-sm">
+            <legend><i class="glyphicons-icon skull"></i><br /> RUSH &Phi;&Kappa;&Sigma;</legend>
             <form data-async data-target='#output' style="overflow: hidden;" action="{% url 'nameslist_app.views.submit' %}" method="post" class="form" role="form">
              {% csrf_token %}
                 <input class="form-control" name="name" placeholder="Full Name" type="text" />
@@ -27,7 +27,7 @@
             <br />
             <br />
             <button class="btn btn-lg btn-primary btn-block" type="submit">
-                Sign up</button>
+                Submit</button>
             </form>
         </div>
     </div>
