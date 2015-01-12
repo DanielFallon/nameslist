@@ -25,6 +25,7 @@ def submit(request):
 
     try:
         name = models.Name(prospective_id=prospective, name=request.POST['name'], correct=True)
+        name.save()
     except:
         prospective.delete()
         return send_status("fail")

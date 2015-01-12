@@ -7,21 +7,90 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{%  static 'css/bootstrap-theme.css'  %}" />
     <link rel="stylesheet" href="http://help.doitmax.de/glyphicons/css/glyphicons.css" />
+    <style type="text/css">
+        body {
+            background-color: black;
+            background-image: url('{% static 'images/bg.png' %}');
+            background-position: bottom right;
+            background-repeat: no-repeat;
+        }
+        div#rush-form {
+            background-color: rgba(169, 169, 169, 0.6);
+            background-image: none;
+        }
+        button.btn{
+            color: rgb(98, 98, 98);
+            background-image: linear-gradient(to bottom, gold 0%, goldenrod 100%);
+            border-color: gold;
+        }
+        legend {
+            color: white;
+        }
+        input {
+            opacity: .7;
+        }
+        input:hover,input:focus,input:valid {
+            opacity: 1;
+        }
+        body::after {
+          content: "";
+          background:  url('{% static 'images/overlay.png' %}');
+          opacity: 0.7;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          position: absolute;
+          z-index: -1;
+        }
+        .fcrest {
+            pointer-events: none;
+        }
+         @media only screen and (min-width : 992px) {
+            .vertical-center {
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  flex-direction: column;
+        }}
+        .vertical-center {
+            min-height: 100%;
+            min-height: 100vh;
+        }
+        .fouter {
+            position:absolute;
+        }
+        #title::after{
+            position: relative;
+            content:'';
+        }
+        .legendaryAnimation {
+            -webkit-transition: all 1.2s ease-out;
+            -moz-transition: all 1.2s ease-out;
+            transition: all 1.2s ease-out;
+        }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <script type="application/javascript" src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
     <script type="application/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-4 col-md-offset-4 text-center well well-sm">
-            <legend><i class="glyphicons-icon skull"></i><br /> RUSH &Phi;&Kappa;&Sigma;</legend>
+<div class="container outer">
+    <div class="row  vertical-center">
+        <div style="overflow: hidden;" id="rush-form" class="col-xs-12 col-sm-12 col-md-4 text-center well well-sm">
+            <div id="title" style="position:relative;height:auto;">
+                <legend id="l_1" class="right view" style="bottom:0;position: absolute;"><img style="width: 40px; height:40px;" src="{% static 'images/maltese.png' %}" /><br /> RUSH &Phi;&Kappa;&Sigma;</legend>
+                <legend id="l_2" class="left" style="display: none; bottom:0;position: absolute;">Successfully Registered</legend>
+                <legend id="l_3" class="left" style="display: none; bottom:0;position: absolute;">Thank you!</legend>
+            </div>
             <form data-async data-target='#output' style="overflow: hidden;" action="{% url 'nameslist_app.views.submit' %}" method="post" class="form" role="form">
              {% csrf_token %}
-                <input class="form-control" name="name" placeholder="Full Name" type="text" />
+                <input required="" class="form-control" name="name" placeholder="Full Name" type="text" />
                 <fieldset name="extra">
                 {% for field_type in form_elements %}
-                    <input class="form-control" name="field_type_id{{field_type.id}}" placeholder="{{ field_type.question }}" type="text" />
+                    <input required class="form-control" name="field_type_id{{field_type.id}}" placeholder="{{ field_type.question }}" type="text" />
                 {% endfor %}
                 </fieldset>
             <br />
@@ -32,7 +101,56 @@
         </div>
     </div>
 </div>
-<div id="output"></div>
+
+{% comment %}
+<div class="container outer crest">
+    <div class="row  vertical-center">
+        <img class="col-sm-6 col-xs-8 col-sm-offset-3 col-xs-offset-2 col-md-3 col-md-offset-0" src="http://pks.ae/Phi-kappa-sigma-crest.png" style="">
+    </div>
+</div>
+{% endcomment %}
+<script type="text/javascript">
+    /*
+* jquery.animate.clip.js
+*
+* jQuery css clip animation support -- Joshua Poehls
+* version 0.1.4
+
+* forked from Jim Palmer's plugin http://www.overset.com/2008/08/07/jquery-css-clip-animation-plugin/
+* idea spawned from jquery.color.js by John Resig
+* Released under the MIT license.
+*/
+(function($){
+    $.fx.step.clip = function(fx){
+        var elem = fx.elem,
+            $elem = $(elem);
+        if(fx.start === 'rect(0px, 0px, 0px, 0px)' || fx.start === 0) {
+            fx.start = "rect(" + parseFloat(elem.scrollTop) + ", " + parseFloat(elem.scrollWidth) + ", "+ parseFloat(elem.scrollHeight) + ", " + parseFloat(elem.scrollLeft) + ')';
+        } else {
+            fx.start = $elem.css('clip'); // .replace(/,/g, " ");
+        }
+
+        var calcRect = function(pos){
+            var arr = [],
+                rect = fx[pos].slice(5).split(' ');
+
+            for (var i = 0; i < rect.length; i++) {
+                arr.push(parseFloat(rect[i]));
+            }
+            return arr;
+        };
+        var sa = calcRect('start'),
+            ea = calcRect('end');
+
+        var perc = parseFloat(fx.pos).toFixed(4);
+        elem.style.clip = 'rect(' +
+            parseFloat( ( perc * (ea[0] - sa[0]) ) + sa[0] ) + fx.unit + ', ' +
+            parseFloat( ( perc * (ea[1] - sa[1]) ) + sa[1] ) + fx.unit + ', ' +
+            parseFloat( ( perc * (ea[2] - sa[2]) ) + sa[2] ) + fx.unit + ', ' +
+            parseFloat( ( perc * (ea[3] - sa[3]) ) + sa[3] ) + fx.unit + ')';
+    };
+}(jQuery));
+</script>
 <script type="application/javascript">
     var buildUrl = function(base, pairs) {
         var sep = (base.indexOf('?') > -1) ? '&' : '?';
@@ -40,25 +158,64 @@
         return base + sep + params
     };
     jQuery(document).on('ready',function() {
-    jQuery('form[data-async]').on('submit', function(event) {
-        event.preventDefault();
-        var $form = $(this);
-        var $target = $($form.attr('data-target'));
+        jQuery('form[data-async]').on('submit', function (event) {
+            event.preventDefault();
+            $('form').animate({height: "toggle"}, 1200);
+            var $form = $(this);
+            var $target = $($form.attr('data-target'));
 
-        jQuery.ajax({
-            type: $form.attr('method'),
-            url: buildUrl($form.attr('action'),{response:"JSON"}),
-            data: $form.serialize(),
+            jQuery.ajax({
+                type: $form.attr('method'),
+                url: buildUrl($form.attr('action'), {response: "JSON"}),
+                data: $form.serialize(),
 
-            success: function(data, status) {
-                $target.html(data.status);
-            }
+                success: function (data, status) {
+                    window.setTimeout(function () {
+                        legendaryTransition($('#l_1'), $('#l_2'));
+                    }, 1200);
+                    window.setTimeout(function () {
+                        legendaryTransition($('#l_2'), $('#l_3'));
+                    }, 3500);
+                    window.setTimeout(function () {
+                        legendaryTransition($('#l_3'), $('#l_1'));
+                        $('form')[0].reset();
+                        $('form').animate({height: "toggle"}, 1200);
+                    }, 7000);
+                }
+            });
         });
-    });
-        jQuery('legend').on('click',function(){
-            $('form').animate({height: "toggle"},5000)
-        })
-});
+        legendaryTransition = function (from, to) {
+            from
+                    .removeClass('legendaryAnimation')
+                    .css('clip', 'rect(0px ' + from.width() + 'px ' + from.parent().height() + 'px 0px)')
+                    .addClass('legendaryAnimation')
+                    .css('display', 'block')
+                    .css('clip', 'rect(0px ' + from.width() + 'px ' + from.parent().height() + 'px ' + from.width() + 'px)')
+                    .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+                    function (e) {
+                        console.log("running");
+                        from.css('display', 'none').css('clip', 'auto')
+                    });
+            to
+                    .removeClass('legendaryAnimation')
+                    .css('clip', 'rect(0px 0px ' + to.parent().height() + 'px 0px)')
+                    .addClass('legendaryAnimation')
+                    .css('display', 'block')
+                    .css('clip', 'rect(0px  ' + to.width() + 'px ' + to.parent().height() + 'px 0px)').
+                    one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+                    function (e) {
+                        to.css('clip', 'auto');
+                    });
+        };});
+        jQuery(document).on('ready', function () {
+            var objHeight = 0;
+            jQuery.each($('#title').children(), function () {
+                if (objHeight < $(this).height()) {
+                    objHeight = $(this).height();
+                }
+            });
+            $('#title').css('height', objHeight + 21 + "px");
+        });
 </script>
 </body>
 </html>
