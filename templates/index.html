@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4 well well-sm">
             <legend><i class="glyphicons-icon skull"></i> Sign up!</legend>
-            <form data-async data-target='#output' action="{% url 'nameslist_app.views.submit' %}/?response=JSON" method="post" class="form" role="form">
+            <form data-async data-target='#output' style="overflow: hidden;" action="{% url 'nameslist_app.views.submit' %}" method="post" class="form" role="form">
              {% csrf_token %}
                 <input class="form-control" name="name" placeholder="Full Name" type="text" />
                 <fieldset name="extra">
@@ -34,22 +34,30 @@
 </div>
 <div id="output"></div>
 <script type="application/javascript">
+    var buildUrl = function(base, pairs) {
+        var sep = (base.indexOf('?') > -1) ? '&' : '?';
+        params = jQuery.param(pairs);
+        return base + sep + params
+    };
     jQuery(document).on('ready',function() {
     jQuery('form[data-async]').on('submit', function(event) {
+        event.preventDefault();
         var $form = $(this);
         var $target = $($form.attr('data-target'));
 
         jQuery.ajax({
             type: $form.attr('method'),
-            url: $form.attr('action'),
+            url: buildUrl($form.attr('action'),{response:"JSON"}),
             data: $form.serialize(),
 
             success: function(data, status) {
                 $target.html(data.status);
             }
         });
-        event.preventDefault();
     });
+        jQuery('legend').on('click',function(){
+            $('form').animate({height: "toggle"},5000)
+        })
 });
 </script>
 </body>

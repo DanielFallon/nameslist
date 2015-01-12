@@ -34,8 +34,8 @@ class Fact_Type(models.Model):
     TEXT = 0
     BLOB = 1
     PROMPT_TYPE_CHOICES = (
-        (0, 'text'),
-        (1, 'blob')
+        (TEXT, 'text'),
+        (BLOB, 'blob')
     )
     prompt_type = models.SmallIntegerField(choices=PROMPT_TYPE_CHOICES)
     question = models.TextField()
