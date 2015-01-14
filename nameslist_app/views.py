@@ -47,3 +47,53 @@ def submit(request):
     return send_status("success")
 
 
+def profile(request, prospective_id):
+    raise Http404
+
+
+def photo(request, prospective_id, photo_id=None, action=None):
+    # if we got a photo id, return that photo
+    if photo_id:
+        pass
+    # if we got an action, perform it
+    if action:
+        if action == "add":
+            pass
+        if action == "delete":
+            pass
+        if action == "list":
+            # return a gallery
+            pass
+
+    # otherwise, return the best photo
+    pass
+
+
+def name(request, prospective_id, action=None):
+    if action:
+        # accept the posted image
+        pass
+    # Otherwise return the correct name
+    pass
+
+
+def fact(request, prospective_id, action=None, fact_id=None):
+    if action:  # must be add due to the regex
+        # add a fact to the prospective
+        pass
+    if fact_id:
+        # return just that fact_id
+        pass
+    # otherwise return a list of all the facts
+    pass
+
+
+def opinion(request, prospective_id, action=None, opinion_id=None):
+    if action:  # must be add due to the regex
+        # add a opinion to the prospective
+        pass
+    if opinion_id:
+        # return just that opinion_id
+        pass
+    # otherwise return a list of all the opinions
+    pass
