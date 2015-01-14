@@ -78,6 +78,13 @@ class Photo(models.Model):
     url = models.TextField()
     primary = models.BooleanField(default=False)
 
+    def to_json(self):
+        return {'prospective_id': self.prospective_id_id,
+                'user_id': self.user_id.first_name + " " + self.user_id.last_name,
+                'url': self.url,
+                'primary': self.primary,
+                }
+
     class Meta:
         unique_together = ('prospective_id', 'user_id',)
 

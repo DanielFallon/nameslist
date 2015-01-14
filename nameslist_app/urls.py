@@ -38,19 +38,19 @@ opinionUrlPatterns = patterns('',
                               )
 profileActionPatterns = patterns('',
                                  url(r'^$|^/$', views.profile),
-                                 url(r'^photo', include(photoUrlPatterns)),
-                                 url(r'^name', include(nameUrlPatterns)),
-                                 url(r'^fact', include(factUrlPatterns)),
-                                 url(r'^opinion', include(opinionUrlPatterns)),
+                                 url(r'^/photo', include(photoUrlPatterns)),
+                                 url(r'^/name', include(nameUrlPatterns)),
+                                 url(r'^/fact', include(factUrlPatterns)),
+                                 url(r'^/opinion', include(opinionUrlPatterns)),
                                  )
 
 profileUrlPatterns = patterns('',
-                              url(r'^(?P<prospective_id>\d)'), include(profileActionPatterns)
+                              url(r'^/(?P<prospective_id>\d)', include(profileActionPatterns)),
                               )
 
 urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
                        url(r'^submit/', views.submit, name='submit'),
-                       url(r'^profile/', include(profileUrlPatterns)),
+                       url(r'^profile', include(profileUrlPatterns)),
                        )
 
