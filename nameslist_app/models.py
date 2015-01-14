@@ -34,7 +34,20 @@ class Prospective(models.Model):
     def fact_list(self,fact_id):
         return self.fact_set.all().filter(fact_type_id_id=fact_id).extra(order_by = ['-id'])
 
-    def get_all_facts(self):
+    @cached_property
+    def get_all_opinions(self):
+        opinion_sets = {}
+        all_opinions = self.opinion_set.all()
+        for opinion in all_opinions:
+            if opinion_sets[opinion.opinion_prompt_id_id]:
+                opinion_sets[opinion.opinion_prompt_id_id].append(opinion)
+            else:
+                opinion_sets[opinion.opinion_prompt_id_id] = []
+        opinion_prompts = Opinion_Prompt.objects.all().extra(order_by = ['sortorder'])
+        return [(opinion_prompt,opinion_sets.get(opinion_prompt.id)) for opinion_prompt in opinion_prompts]
+
+    @cached_property
+    def facts(self):
         fact_sets = {}
         all_facts = self.fact_set.all()
         for fact in all_facts:
@@ -42,11 +55,8 @@ class Prospective(models.Model):
                 fact_sets[fact.fact_type_id_id].append(fact)
             else:
                 fact_sets[fact.fact_type_id_id] = []
-        fact_types = Fact_Type.objects.filter(pk__in=fact_sets.keys())
-        for fact_type in fact_types:
-            print(fact_type.question)
-            for fact in fact_sets[fact_type.id]:
-                print(fact.fact)
+        fact_types = Fact_Type.objects.all().extra(order_by = ['sortorder'])
+        return [(fact_type,fact_sets.get(fact_type.id)) for fact_type in fact_types]
 
 
 
