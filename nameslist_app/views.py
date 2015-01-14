@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
+from nameslist_app.models import Prospective,Name
 import json
 import re
 
@@ -98,3 +99,7 @@ def opinion(request, prospective_id, action=None, opinion_id=None):
         pass
     # otherwise return a list of all the opinions
     pass
+def list_debug(request):
+    prospectiveList = Prospective.objects.all()
+    print(prospectiveList[0].name_list)
+    return render_to_response('list.html')
